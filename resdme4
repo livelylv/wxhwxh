@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main()
+{
+    FILE *from1_fptr;
+    FILE *from2_fptr;
+    FILE *to_fptr;
+    char ch1,ch2;
+    char ch3,ch4;
+    int sum = 0;
+    int temp1 = 0,temp2 = 0;
+    
+    if((from1_fptr = fopen("a1.c","r")) == NULL)
+    {
+        printf("from1 file open error!\n");
+	exit(0);
+    }
+    if((from2_fptr = fopen("a2.c","r")) == NULL)
+    {
+        printf("from2 file open error!\n");
+	exit(0);
+    }
+    if((to_fptr = fopen("b.c","w+")) == NULL)
+    {
+        printf("to file open error!\n");
+	exit(0);
+    }
+
+    while(((ch1 = fgetc(from1_fptr)) != EOF)&&(ch2 = fgetc(from2_fptr))!= EOF )
+    {   
+        if(ch1<'0' || ch1 >'9')
+        {
+	     //fputc(ch1,to_fptr);
+	     sum = temp1 + temp2;
+             if(sum != 0)
+	     {
+                ch3 = sum / 10 + '0';
+		ch4 = sum % 10 + '0';
+		fputc(ch3,to_fptr);
+		fputc(ch4,to_fptr);
+	     }
+             fputc(ch1,to_fptr);
+	     temp1 = 0;
+	     temp2 = 0;
+	 }
+	else
+        {
+	    temp1 = temp1 * 10 + ch1 -'0';
+	    temp2 = temp2 * 10 + ch2 -'0'; 
+	}
+	    
+	
+    }
+
+    fclose(from1_fptr);
+    fclose(from2_fptr);
+    fclose(to_fptr);
+
+    return 0;
+}
